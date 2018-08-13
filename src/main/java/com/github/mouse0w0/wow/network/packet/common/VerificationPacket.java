@@ -1,8 +1,6 @@
 package com.github.mouse0w0.wow.network.packet.common;
 
-import com.github.mouse0w0.wow.network.Connection;
 import com.github.mouse0w0.wow.network.Packet;
-import com.github.mouse0w0.wow.network.PacketHandler;
 import io.netty.buffer.ByteBuf;
 
 public class VerificationPacket implements Packet {

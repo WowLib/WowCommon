@@ -4,7 +4,7 @@ public interface NetworkManager {
 
     <T extends Packet> void register(Class<T> packetType, PacketHandler<T> handler);
 
-    void send(Connection target, Packet packet);
+    void send(Object target, Packet packet);
 
-    void handle(Connection sender, byte[] bytes);
+    void handle(Object sender, byte[] bytes);
 }

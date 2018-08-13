@@ -21,7 +21,7 @@ public abstract class NetworkManagerBase implements NetworkManager {
         nextId++;
     }
 
-    public void handle(Connection sender, byte[] bytes) {
+    public void handle(Object sender, byte[] bytes) {
         ByteBuf buf = Unpooled.wrappedBuffer(bytes);
         byte id = buf.readByte();
         RegisteredPacket<?> registeredPacket = idToRegisteredPackets.get(id);
@@ -52,7 +52,7 @@ public abstract class NetworkManagerBase implements NetworkManager {
             this.id = id;
         }
 
-        public void handle(Connection sender, ByteBuf buf) {
+        public void handle(Object sender, ByteBuf buf) {
             if (handler == null)
                 throw new NetworkException("Couldn't handle this packet.");
 
