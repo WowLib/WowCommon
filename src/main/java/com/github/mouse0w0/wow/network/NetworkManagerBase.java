@@ -31,7 +31,7 @@ public abstract class NetworkManagerBase implements NetworkManager {
         registeredPacket.handle(sender, buf);
     }
 
-    protected ByteBuf createBuffer(Class<Packet> packetType) {
+    protected ByteBuf createBuffer(Class<? extends Packet> packetType) {
         RegisteredPacket<?> registeredPacket = typeToRegisteredPacket.get(packetType);
         if (registeredPacket == null)
             throw new NetworkException("Couldn't create this packet buffer.");
