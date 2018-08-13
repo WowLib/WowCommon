@@ -21,8 +21,7 @@ public abstract class NetworkManagerBase implements NetworkManager {
         nextId++;
     }
 
-    public void handle(Object sender, byte[] bytes) {
-        ByteBuf buf = Unpooled.wrappedBuffer(bytes);
+    public void handle(Object sender, ByteBuf buf) {
         byte id = buf.readByte();
         RegisteredPacket<?> registeredPacket = idToRegisteredPackets.get(id);
         if (registeredPacket == null)
