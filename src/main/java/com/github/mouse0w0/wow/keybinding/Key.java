@@ -136,16 +136,16 @@ public enum Key {
      * @deprecated Use KEY_LMETA instead
      */
     KEY_LWIN         (0xDB), /* Left Windows key */
-    KEY_RMETA          (0xDC), /* Right Windows/Option key */
+    KEY_RMETA        (0xDC), /* Right Windows/Option key */
     /**
      * The right windows key, mapped to KEY_RMETA
      *
      * @deprecated Use KEY_RMETA instead
      */
-    KEY_RWIN          (0xDC), /* Right Windows key */
-    KEY_APPS          (0xDD), /* AppMenu key */
-    KEY_POWER          (0xDE),
-    KEY_SLEEP          (0xDF);
+    KEY_RWIN         (0xDC), /* Right Windows key */
+    KEY_APPS         (0xDD), /* AppMenu key */
+    KEY_POWER        (0xDE),
+    KEY_SLEEP        (0xDF);
 
     private final int code;
 
