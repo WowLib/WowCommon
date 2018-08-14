@@ -1,4 +1,4 @@
-package com.github.mouse0w0.wow.data;
+package com.github.mouse0w0.wow.profile;
 
 import com.github.mouse0w0.wow.network.packet.server.ServerVerificationPacket;
 

@@ -1,8 +1,8 @@
-package com.github.mouse0w0.wow.data;
+package com.github.mouse0w0.wow.profile;
 
 import java.util.UUID;
 
-public interface Player {
+public interface User {
 
     UUID getUUID();
 
