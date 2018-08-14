@@ -1,15 +1,15 @@
-package com.github.mouse0w0.wow.network.packet.common;
+package com.github.mouse0w0.wow.network.packet.client;
 
 import com.github.mouse0w0.wow.network.Packet;
 import io.netty.buffer.ByteBuf;
 
-public class VerificationPacket implements Packet {
+public class ClientVerificationPacket implements Packet {
 
     private int internalVersion;
 
-    public VerificationPacket(){}
+    public ClientVerificationPacket(){}
 
-    public VerificationPacket(int internalVersion){
+    public ClientVerificationPacket(int internalVersion){
         this.internalVersion = internalVersion;
     }
 
