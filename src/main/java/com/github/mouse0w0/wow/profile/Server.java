@@ -2,7 +2,7 @@ package com.github.mouse0w0.wow.profile;
 
 import com.github.mouse0w0.wow.network.packet.server.ServerVerificationPacket;
 
-public class Server {
+public class Server implements Profile {
 
     public static final Server UNSUPPORTED_SERVER = new Server();
 
@@ -23,7 +23,7 @@ public class Server {
         return support;
     }
 
-    public int getServerVersion() {
+    public int getVersion() {
         return version;
     }
 }
