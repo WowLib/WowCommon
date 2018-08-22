@@ -14,6 +14,10 @@ public interface RegistryEntry<T> {
         return setRegistryName(new NamespacedKey(name));
     }
 
+    default T setRegistryName(String domain, String path) {
+        return setRegistryName(new NamespacedKey(domain, path));
+    }
+
     abstract class Impl<T extends RegistryEntry<T>> implements RegistryEntry<T> {
 
         private final TypeToken<T> token = new TypeToken<T>(getClass()) {
@@ -31,16 +35,6 @@ public interface RegistryEntry<T> {
             if (this.location != null) throw new Error("Duplicated register");
             this.location = location;
             return (T) this;
-        }
-
-        public final T setRegistryName(String domain, String path) {
-            return setRegistryName(new NamespacedKey(domain, path));
-        }
-
-        public final T setRegistryName(String path) {
-            throw new UnsupportedOperationException();
-            //TODO:
-            //return setRegistryName(new ResourceLocation(domain, path));
         }
 
         @SuppressWarnings("unchecked")

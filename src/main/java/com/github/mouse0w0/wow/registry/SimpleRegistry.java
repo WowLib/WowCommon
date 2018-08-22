@@ -14,9 +14,9 @@ public class SimpleRegistry<T extends RegistryEntry<T>> implements Registry<T> {
     private final TypeToken<T> token = new TypeToken<T>(getClass()) {
     };
 
-    private final BiMap<NamespacedKey, T> registeredItems = HashBiMap.create();
-    private final BiMap<Integer, T> idToRegisteredItems = HashBiMap.create();
-    private final BiMap<NamespacedKey, Integer> keyToId = HashBiMap.create();
+    protected final BiMap<NamespacedKey, T> registeredItems = HashBiMap.create();
+    protected final BiMap<Integer, T> idToRegisteredItems = HashBiMap.create();
+    protected final BiMap<NamespacedKey, Integer> keyToId = HashBiMap.create();
 
     public SimpleRegistry() {
     }
