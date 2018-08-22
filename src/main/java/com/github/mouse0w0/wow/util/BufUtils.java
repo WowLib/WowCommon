@@ -45,4 +45,12 @@ public final class BufUtils {
         int length = readVarInt(buf);
         return new String(buf.readBytes(length).array());
     }
+
+    public static <T extends Enum<T>> void writeEnum(ByteBuf buf, T value) {
+        writeVarInt(buf, value.ordinal());
+    }
+
+    public static <T extends Enum<T>> T readEnum(ByteBuf buf, Class<T> type) {
+        return type.getEnumConstants()[readVarInt(buf)];
+    }
 }
