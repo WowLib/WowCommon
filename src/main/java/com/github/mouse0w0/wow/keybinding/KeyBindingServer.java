@@ -1,7 +1,5 @@
 package com.github.mouse0w0.wow.keybinding;
 
-import java.util.List;
-
 public class KeyBindingServer extends KeyBinding {
 
     public static class Builder {

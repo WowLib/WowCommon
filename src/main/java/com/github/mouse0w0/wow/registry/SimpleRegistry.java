@@ -1,6 +1,7 @@
 package com.github.mouse0w0.wow.registry;
 
 import com.google.common.collect.BiMap;
+import com.google.common.collect.Comparators;
 import com.google.common.collect.HashBiMap;
 import com.google.common.reflect.TypeToken;
 
@@ -18,7 +19,17 @@ public class SimpleRegistry<T extends RegistryEntry<T>> implements Registry<T> {
     protected final BiMap<Integer, T> idToRegisteredItems = HashBiMap.create();
     protected final BiMap<NamespacedKey, Integer> keyToId = HashBiMap.create();
 
+    private final BiMap<NamespacedKey, Integer> defaultKeyToId;
+
+    private int nextId = 0;
+
     public SimpleRegistry() {
+        this(HashBiMap.create(0));
+    }
+
+    public SimpleRegistry(BiMap<NamespacedKey, Integer> defaultKeyToId) {
+        this.defaultKeyToId = defaultKeyToId;
+        this.nextId = defaultKeyToId.values().stream().mapToInt(Integer::intValue).max().getAsInt() + 1;
     }
 
     @SuppressWarnings("unchecked")
@@ -34,6 +45,15 @@ public class SimpleRegistry<T extends RegistryEntry<T>> implements Registry<T> {
             throw new RegisterException("\"" + key + "\" has been registered.");
 
         registeredItems.put(key, obj);
+        if (defaultKeyToId.containsKey(key)) {
+            int id = defaultKeyToId.get(key);
+            idToRegisteredItems.put(id, obj);
+            keyToId.put(key, id);
+        } else {
+            idToRegisteredItems.put(nextId, obj);
+            keyToId.put(key, nextId);
+            nextId++;
+        }
         return obj;
     }
 

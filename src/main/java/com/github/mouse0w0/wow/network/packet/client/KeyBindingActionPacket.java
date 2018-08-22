@@ -8,25 +8,33 @@ import io.netty.buffer.ByteBuf;
 public class KeyBindingActionPacket implements Packet {
 
     private int keyBindingId;
-    private KeyAction action;
+    private boolean pressed;
+
+    public KeyBindingActionPacket() {
+    }
+
+    public KeyBindingActionPacket(int keyBindingId, boolean pressed) {
+        this.keyBindingId = keyBindingId;
+        this.pressed = pressed;
+    }
 
     public int getKeyBindingId() {
         return keyBindingId;
     }
 
-    public KeyAction getAction() {
-        return action;
+    public boolean isPressed() {
+        return pressed;
     }
 
     @Override
     public void read(ByteBuf buffer) {
         keyBindingId = BufUtils.readVarInt(buffer);
-        action = KeyAction.values()[buffer.readByte()];
+        pressed = buffer.readBoolean();
     }
 
     @Override
     public void write(ByteBuf buffer) {
         BufUtils.writeVarInt(buffer, keyBindingId);
-        buffer.writeByte(action.ordinal());
+        buffer.writeBoolean(pressed);
     }
 }
