@@ -1,18 +1,19 @@
 package com.github.mouse0w0.wow.keybinding;
 
-public class KeyBinding {
+import com.github.mouse0w0.wow.registry.RegistryEntry;
+
+public abstract class KeyBinding extends RegistryEntry.Impl<KeyBinding> {
 
     private final Key defaultKey;
     private final KeyModifier defaultModifier;
     private final KeyDomain domain;
+    private final String displayName;
 
-    private Key key;
-    private KeyModifier modifier;
-
-    public KeyBinding(Key defaultKey, KeyModifier defaultModifier, KeyDomain domain) {
+    public KeyBinding(Key defaultKey, KeyModifier defaultModifier, KeyDomain domain, String displayName) {
         this.defaultKey = defaultKey;
         this.defaultModifier = defaultModifier;
         this.domain = domain;
+        this.displayName = displayName;
     }
 
     public Key getDefaultKey() {
@@ -27,19 +28,7 @@ public class KeyBinding {
         return domain;
     }
 
-    public Key getKey() {
-        return key;
-    }
-
-    public void setKey(Key key) {
-        this.key = key;
-    }
-
-    public KeyModifier getModifier() {
-        return modifier;
-    }
-
-    public void setModifier(KeyModifier modifier) {
-        this.modifier = modifier;
+    public String getDisplayName() {
+        return displayName;
     }
 }
