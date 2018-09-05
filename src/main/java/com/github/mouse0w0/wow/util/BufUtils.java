@@ -3,8 +3,7 @@ package com.github.mouse0w0.wow.util;
 import io.netty.buffer.ByteBuf;
 
 public final class BufUtils {
-    private BufUtils() {
-    }
+    private BufUtils() {}
 
     public static void writeVarInt(ByteBuf buf, int value) {
         while ((value & -128) != 0) {
@@ -52,5 +51,12 @@ public final class BufUtils {
 
     public static <T extends Enum<T>> T readEnum(ByteBuf buf, Class<T> type) {
         return type.getEnumConstants()[readVarInt(buf)];
+    }
+
+    public static byte[] readBytes(ByteBuf buf, int length) {
+        int readable = buf.readableBytes();
+        byte[] bytes = new byte[length > readable ? readable : length];
+        buf.readBytes(bytes);
+        return bytes;
     }
 }
