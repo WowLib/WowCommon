@@ -6,6 +6,7 @@ import java.util.Map;
 import com.github.mouse0w0.wow.util.BufUtils;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufUtil;
 import io.netty.buffer.Unpooled;
 
 public abstract class NetworkManagerBase implements NetworkManager {
@@ -34,6 +35,7 @@ public abstract class NetworkManagerBase implements NetworkManager {
 
     private static final int MAXIUM_SIZE = 30000;
     private static final int SPLIT_SIZE = 10000;
+    int index = 0;
 
     @Override
     public void send(Object target, Packet packet) {
@@ -43,7 +45,7 @@ public abstract class NetworkManagerBase implements NetworkManager {
         if ((length = buf.readableBytes()) > MAXIUM_SIZE) {
             int total = (int) Math.ceil(length / SPLIT_SIZE);
             for (int i = 0; i < total; i++) {
-                send(target, wrapSplitBuffer(packet.hashCode(), total, i, BufUtils.readBytes(buf, SPLIT_SIZE)));
+                send(target, wrapSplitBuffer(index++, total, i, BufUtils.readBytes(buf, SPLIT_SIZE)));
             }
         } else {
             send(target, Unpooled.buffer().writeBoolean(false).writeBytes(buf));
@@ -85,19 +87,19 @@ public abstract class NetworkManagerBase implements NetworkManager {
     protected ByteBuf wrapSplitBuffer(int identifier, int total, int current, byte[] split) {
         ByteBuf splitBuf = Unpooled.buffer();
         splitBuf.writeBoolean(true);// Mark as split packet
-        splitBuf.writeInt(identifier);
-        splitBuf.writeInt(total);
-        splitBuf.writeInt(current);
+        BufUtils.writeVarInt(splitBuf, identifier);
+        BufUtils.writeVarInt(splitBuf, total);
+        BufUtils.writeVarInt(splitBuf, current);
         splitBuf.writeBytes(split);
         return splitBuf;
     }
 
     protected class SplitPacket extends HashMap<Integer, byte[]> {
-        int hash;
+        int identifier;
         int total;
 
-        public SplitPacket(int hash, int total) {
-            this.hash = hash;
+        public SplitPacket(int identifier, int total) {
+            this.identifier = identifier;
             this.total = total;
         }
 
@@ -125,20 +127,20 @@ public abstract class NetworkManagerBase implements NetworkManager {
         HashMap<Integer, SplitPacket> storage = new HashMap<>();
 
         public SplitPacket appendOrCreate(ByteBuf split) {
-            int hash = split.readInt();
-            int totalPackets = split.readInt();
-            int currentPacketIndex = split.readInt();
+            int identifier = BufUtils.readVarInt(split);
+            int totalPackets = BufUtils.readVarInt(split);
+            int currentPacketIndex = BufUtils.readVarInt(split);
             SplitPacket splitPacket;
-            if (!storage.containsKey(hash)) {
-                splitPacket = storage.put(hash, new SplitPacket(hash, totalPackets));
+            if (!storage.containsKey(identifier)) {
+                splitPacket = storage.put(identifier, new SplitPacket(identifier, totalPackets));
             }
-            splitPacket = storage.get(hash);
+            splitPacket = storage.get(identifier);
             splitPacket.put(currentPacketIndex, split);
             return splitPacket;
         }
 
         public void remove(SplitPacket splitPacket) {
-            storage.remove(splitPacket.hash);
+            storage.remove(splitPacket.identifier);
         }
     }
 
