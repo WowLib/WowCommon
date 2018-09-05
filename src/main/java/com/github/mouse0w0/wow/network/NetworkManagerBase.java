@@ -33,8 +33,8 @@ public abstract class NetworkManagerBase implements NetworkManager {
         nextId++;
     }
 
-    private static final int MAXIUM_SIZE = 30000;
-    private static final int SPLIT_SIZE = 10000;
+    private static final int MAXIMUM_SIZE = 30000;
+    private static final int SPLIT_SIZE = 30000;
     int index = 0;
 
     @Override
@@ -42,7 +42,7 @@ public abstract class NetworkManagerBase implements NetworkManager {
         ByteBuf buf = createBuffer(packet.getClass());
         packet.write(buf);
         int length = 0;
-        if ((length = buf.readableBytes()) > MAXIUM_SIZE) {
+        if ((length = buf.readableBytes()) > MAXIMUM_SIZE) {
             int total = (int) Math.ceil(length / SPLIT_SIZE);
             for (int i = 0; i < total; i++) {
                 send(target, wrapSplitBuffer(index++, total, i, BufUtils.readBytes(buf, SPLIT_SIZE)));
@@ -111,7 +111,7 @@ public abstract class NetworkManagerBase implements NetworkManager {
 
         public ByteBuf assemble() {
             ByteBuf original = Unpooled.buffer();
-            original.writeBoolean(false);// Sign the packet is non-split
+            original.writeBoolean(false);// Mark the packet as non-split
             for (int i = 0; i < total; i++) {
                 original.writeBytes(this.get(i));// Assemble the packet in order
             }
