@@ -1,6 +1,5 @@
 package com.github.mouse0w0.wow.network.packet.client;
 
-import com.github.mouse0w0.wow.keybinding.KeyAction;
 import com.github.mouse0w0.wow.network.Packet;
 import com.github.mouse0w0.wow.util.BufUtils;
 import io.netty.buffer.ByteBuf;

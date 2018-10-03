@@ -9,7 +9,7 @@ public abstract class KeyBinding extends RegistryEntry.Impl<KeyBinding> {
     private final KeyDomain domain;
     private final String displayName;
 
-    public KeyBinding(Key defaultKey, KeyModifier defaultModifier, KeyDomain domain, String displayName) {
+    protected KeyBinding(Key defaultKey, KeyModifier defaultModifier, KeyDomain domain, String displayName) {
         this.defaultKey = defaultKey;
         this.defaultModifier = defaultModifier;
         this.domain = domain;
