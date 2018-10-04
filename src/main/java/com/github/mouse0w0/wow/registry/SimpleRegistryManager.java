@@ -18,7 +18,7 @@ public class SimpleRegistryManager implements RegistryManager {
     public <T extends RegistryEntry<T>> Registry<T> getRegistry(@Nonnull Class<T> type) {
         Registry<T> registry = (Registry<T>)registries.get(type);
         if(registry == null) {
-            registry = new SimpleRegistry<>();
+            registry = new RegistryBase<>();
             addRegistry(type, registry);
         }
         return registry;

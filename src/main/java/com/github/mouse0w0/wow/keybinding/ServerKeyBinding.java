@@ -1,6 +1,6 @@
 package com.github.mouse0w0.wow.keybinding;
 
-public class KeyBindingServer extends KeyBinding {
+public class ServerKeyBinding extends KeyBinding {
 
     public static class Builder {
 
@@ -46,15 +46,15 @@ public class KeyBindingServer extends KeyBinding {
             return this;
         }
 
-        public KeyBindingServer build() {
-            return new KeyBindingServer(defaultKey, defaultModifier, domain, displayName, onPress, onRelease);
+        public ServerKeyBinding build() {
+            return new ServerKeyBinding(defaultKey, defaultModifier, domain, displayName, onPress, onRelease);
         }
     }
 
     private final Runnable onPress;
     private final Runnable onRelease;
 
-    private KeyBindingServer(Key defaultKey, KeyModifier defaultModifier, KeyDomain domain, String displayName, Runnable onPress, Runnable onRelease) {
+    private ServerKeyBinding(Key defaultKey, KeyModifier defaultModifier, KeyDomain domain, String displayName, Runnable onPress, Runnable onRelease) {
         super(defaultKey, defaultModifier, domain, displayName);
         this.onPress = onPress;
         this.onRelease = onRelease;

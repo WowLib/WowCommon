@@ -1,16 +1,16 @@
-package com.github.mouse0w0.wow.client.keybinging;
+package com.github.mouse0w0.wow.client.keybinding;
 
 import com.github.mouse0w0.wow.keybinding.Key;
 import com.github.mouse0w0.wow.keybinding.KeyBinding;
 import com.github.mouse0w0.wow.keybinding.KeyDomain;
 import com.github.mouse0w0.wow.keybinding.KeyModifier;
 
-public class KeyBindingClient extends KeyBinding {
+public class ClientKeyBinding extends KeyBinding {
 
     private Key key;
     private KeyModifier keyModifier;
 
-    public KeyBindingClient(Key defaultKey, KeyModifier defaultModifier, KeyDomain domain, String displayName) {
+    public ClientKeyBinding(Key defaultKey, KeyModifier defaultModifier, KeyDomain domain, String displayName) {
         super(defaultKey, defaultModifier, domain, displayName);
         resetToDefault();
     }

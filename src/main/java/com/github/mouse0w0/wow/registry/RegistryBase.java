@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-public class SimpleRegistry<T extends RegistryEntry<T>> implements Registry<T> {
+public abstract class RegistryBase<T extends RegistryEntry<T>> implements Registry<T> {
 
     @SuppressWarnings("serial")
     private final TypeToken<T> token = new TypeToken<T>(getClass()) {
@@ -19,18 +19,9 @@ public class SimpleRegistry<T extends RegistryEntry<T>> implements Registry<T> {
     protected final BiMap<Integer, T> idToRegisteredItems = HashBiMap.create();
     protected final BiMap<NamespacedKey, Integer> keyToId = HashBiMap.create();
 
-    private final BiMap<NamespacedKey, Integer> defaultKeyToId;
+    public RegistryBase() {}
 
-    private int nextId = 0;
-
-    public SimpleRegistry() {
-        this(HashBiMap.create(0));
-    }
-
-    public SimpleRegistry(BiMap<NamespacedKey, Integer> defaultKeyToId) {
-        this.defaultKeyToId = defaultKeyToId;
-        this.nextId = defaultKeyToId.values().stream().mapToInt(Integer::intValue).max().getAsInt() + 1;
-    }
+    abstract protected int nextId();
 
     @SuppressWarnings("unchecked")
     @Override
@@ -44,16 +35,9 @@ public class SimpleRegistry<T extends RegistryEntry<T>> implements Registry<T> {
         if (registeredItems.containsKey(key))
             throw new RegisterException("\"" + key + "\" has been registered.");
 
-        registeredItems.put(key, obj);
-        if (defaultKeyToId.containsKey(key)) {
-            int id = defaultKeyToId.get(key);
-            idToRegisteredItems.put(id, obj);
-            keyToId.put(key, id);
-        } else {
-            idToRegisteredItems.put(nextId, obj);
-            keyToId.put(key, nextId);
-            nextId++;
-        }
+        Integer id = nextId();
+        idToRegisteredItems.put(id, obj);
+        keyToId.put(key, id);
         return obj;
     }
 
