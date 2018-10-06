@@ -9,4 +9,8 @@ public interface PlatformProvider {
     NetworkManager getNetwork();
 
     Registry<KeyBinding> getKeyBindingRegistry();
+
+    boolean isServer();
+
+    default boolean isClient() { return !isServer();}
 }
