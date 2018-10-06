@@ -150,19 +150,19 @@ public enum Key {
     KEY_POWER(0xDE),
     KEY_SLEEP(0xDF),
 
-    MOUSE_BUTTON_LEFT(0xE0),
-    MOUSE_BUTTON_RIGHT(0xE1),
-    MOUSE_BUTTON_3(0xE2),
-    MOUSE_BUTTON_4(0xE3),
-    MOUSE_BUTTON_5(0xE4),
-    MOUSE_BUTTON_6(0xE5),
-    MOUSE_BUTTON_7(0xE6),
-    MOUSE_BUTTON_8(0xE7),
+    MOUSE_BUTTON_LEFT(0xF0),
+    MOUSE_BUTTON_RIGHT(0xF1),
+    MOUSE_BUTTON_3(0xF2),
+    MOUSE_BUTTON_4(0xF3),
+    MOUSE_BUTTON_5(0xF4),
+    MOUSE_BUTTON_6(0xF5),
+    MOUSE_BUTTON_7(0xF6),
+    MOUSE_BUTTON_8(0xF7),
 
-    MOUSE_WHEEL_UP(0xE8),
-    MOUSE_WHEEL_DOWN(0xE9),
-    MOUSE_WHEEL_LEFT(0xEA),
-    MOUSE_WHEEL_RIGHT(0xEB);
+    MOUSE_WHEEL_UP(0xFA),
+    MOUSE_WHEEL_DOWN(0xFB),
+    MOUSE_WHEEL_LEFT(0xFC),
+    MOUSE_WHEEL_RIGHT(0xFD);
 
     private final int code;
 
@@ -182,7 +182,15 @@ public enum Key {
         }
     }
 
-    public static Key valueOf(int keyCode){
+    public static Key valueOf(int keyCode) {
         return keyCodeToInstance.get(keyCode);
+    }
+
+    public static Key valueOfMouse(int mouseCode) {
+        return valueOf(mouseCode + MOUSE_BUTTON_LEFT.code);
+    }
+
+    public static Key valueOfMouseWhell(int mouseWhellCode) {
+        return valueOf(mouseWhellCode + MOUSE_WHEEL_UP.code);
     }
 }
