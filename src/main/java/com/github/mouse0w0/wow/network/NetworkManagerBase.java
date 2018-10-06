@@ -15,7 +15,7 @@ public abstract class NetworkManagerBase implements NetworkManager {
     public <T extends Packet> void register(Class<T> packetType, PacketHandler<T> handler) {
         if (typeToRegisteredPacket.containsKey(packetType))
             throw new NetworkException("The packet has been registered.");
-        RegisteredPacket<?> registeredPacket = new RegisteredPacket(packetType, handler, nextId);
+        RegisteredPacket<T> registeredPacket = new RegisteredPacket<>(packetType, handler, nextId);
         idToRegisteredPackets.put(nextId, registeredPacket);
         typeToRegisteredPacket.put(packetType, registeredPacket);
         nextId++;
