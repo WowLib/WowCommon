@@ -23,7 +23,7 @@ public class SimpleRegistryManager implements RegistryManager {
                 private int nextId = 0;
 
                 @Override
-                protected int nextId() {
+                protected int nextId(T obj) {
                     return nextId;
                 }
             };

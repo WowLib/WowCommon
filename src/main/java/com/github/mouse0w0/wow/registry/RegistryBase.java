@@ -21,7 +21,7 @@ public abstract class RegistryBase<T extends RegistryEntry<T>> implements Regist
 
     public RegistryBase() {}
 
-    abstract protected int nextId();
+    abstract protected int nextId(T obj);
 
     @SuppressWarnings("unchecked")
     @Override
@@ -35,7 +35,7 @@ public abstract class RegistryBase<T extends RegistryEntry<T>> implements Regist
         if (registeredItems.containsKey(key))
             throw new RegisterException("\"" + key + "\" has been registered.");
 
-        Integer id = nextId();
+        Integer id = nextId(obj);
         idToRegisteredItems.put(id, obj);
         keyToId.put(key, id);
         return obj;
