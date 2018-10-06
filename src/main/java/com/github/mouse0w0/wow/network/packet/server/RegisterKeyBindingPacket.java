@@ -27,6 +27,26 @@ public class RegisterKeyBindingPacket implements Packet {
         displayName = keyBinding.getDisplayName();
     }
 
+    public int getKeyBindingId() {
+        return keyBindingId;
+    }
+
+    public Key getDefaultKey() {
+        return defaultKey;
+    }
+
+    public KeyDomain getDomain() {
+        return domain;
+    }
+
+    public KeyModifier getDefaultModifier() {
+        return defaultModifier;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
     @Override
     public void read(ByteBuf buffer) {
         keyBindingId = BufUtils.readVarInt(buffer);
