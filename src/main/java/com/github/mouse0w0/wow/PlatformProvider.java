@@ -1,14 +1,13 @@
 package com.github.mouse0w0.wow;
 
-import com.github.mouse0w0.wow.keybinding.KeyBinding;
 import com.github.mouse0w0.wow.network.NetworkManager;
-import com.github.mouse0w0.wow.registry.Registry;
+import com.github.mouse0w0.wow.registry.RegistryManager;
 
 public interface PlatformProvider {
 
     NetworkManager getNetwork();
 
-    Registry<KeyBinding> getKeyBindingRegistry();
+    RegistryManager getRegistryManager();
 
     boolean isServer();
 

@@ -18,7 +18,7 @@ public interface RegistryManager {
 	 * @param type The type of the registry contained
 	 * @return If this registry exist
 	 */
-	<T extends RegistryEntry<T>> boolean hasRegistry(@Nonnull Class<T> type);
+	<T extends RegistryEntry<T>> boolean hasRegistry(Class<T> type);
 
 	/**
 	 * Register a new registry into this manager

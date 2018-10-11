@@ -1,6 +1,6 @@
 package com.github.mouse0w0.wow.keybinding;
 
-public class ServerKeyBinding extends KeyBinding {
+public class ServerKeyBinding extends KeyBinding<ServerKeyBinding> {
 
     public static class Builder {
 

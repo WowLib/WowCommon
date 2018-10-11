@@ -17,6 +17,10 @@ public interface Registry<T extends RegistryEntry<T>> {
 
     T getValue(NamespacedKey registryName);
 
+    default T getValue(String domain, String path) {
+        return getValue(new NamespacedKey(domain, path));
+    }
+
     default T getValue(String registryName) {
         return getValue(new NamespacedKey(registryName));
     }

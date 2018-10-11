@@ -1,7 +1,6 @@
 package com.github.mouse0w0.wow.registry;
 
 import com.google.common.collect.BiMap;
-import com.google.common.collect.Comparators;
 import com.google.common.collect.HashBiMap;
 import com.google.common.reflect.TypeToken;
 

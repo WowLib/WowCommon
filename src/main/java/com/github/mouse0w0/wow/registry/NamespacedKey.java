@@ -1,7 +1,6 @@
 package com.github.mouse0w0.wow.registry;
 
 import com.google.common.base.Strings;
-import org.apache.commons.lang3.Validate;
 
 import javax.annotation.Nonnull;
 
@@ -11,14 +10,17 @@ public class NamespacedKey {
     private String path;
 
     public NamespacedKey(String domain, @Nonnull String path) {
+        if(Strings.isNullOrEmpty(path))
+        	throw new IllegalArgumentException("Path couldn't be null or empty");
         this.domain = Strings.nullToEmpty(domain);
-        this.path = Validate.notEmpty(path);
+        this.path = path;
     }
 
-    public NamespacedKey(@Nonnull String resource) {
-        Validate.notEmpty(resource);
+    public NamespacedKey(@Nonnull String namespacedKey) {
+        if(Strings.isNullOrEmpty(namespacedKey))
+        	throw new IllegalArgumentException("NamespacedKey couldn't be null or empty");
 
-        String args[] = resource.split(":", 2);
+        String args[] = namespacedKey.split(":", 2);
         if (args.length < 2) {
             this.domain = "";
             this.path = args[0];
@@ -33,17 +35,9 @@ public class NamespacedKey {
         return domain;
     }
 
-    protected void setDomain(@Nonnull String domain) {
-        this.domain = Validate.notEmpty(domain);
-    }
-
     @Nonnull
     public String getPath() {
         return path;
-    }
-
-    protected void setPath(@Nonnull String path) {
-        this.path = Validate.notEmpty(path);
     }
 
     @Override
