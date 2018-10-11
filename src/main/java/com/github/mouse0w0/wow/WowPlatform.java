@@ -1,6 +1,7 @@
 package com.github.mouse0w0.wow;
 
 import com.github.mouse0w0.wow.network.NetworkManager;
+import com.github.mouse0w0.wow.registry.RegistryManager;
 
 public class WowPlatform {
     private static final String NAME = "Wow";
@@ -31,8 +32,12 @@ public class WowPlatform {
         return platformProvider.getNetwork();
     }
 
+    public static RegistryManager getRegistryManager() {
+        return platformProvider.getRegistryManager();
+    }
+
     public static void setPlatformProvider(PlatformProvider platformProvider) {
-        if(platformProvider != null)
+        if (platformProvider != null)
             throw new IllegalStateException("Wow platform has been initialized.");
         WowPlatform.platformProvider = platformProvider;
     }
