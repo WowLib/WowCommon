@@ -2,21 +2,20 @@ package com.github.mouse0w0.wow.network;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.WeakHashMap;
 
 import com.github.mouse0w0.wow.util.BufUtils;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufUtil;
 import io.netty.buffer.Unpooled;
 
 public abstract class NetworkManagerBase implements NetworkManager {
-    private final HashMap<Object, PacketStorage> storages = new HashMap<Object, PacketStorage>() {
-        public PacketStorage get(Object key) {
-            if (!storages.containsKey(key)) {
-                return this.put(key, new PacketStorage());
-            }
-            return super.get(key);
 
+    private static final int MAX_PACKET_SIZE = 32700;
+
+    private final Map<Object, PacketStorage> storages = new WeakHashMap<Object, PacketStorage>() {
+        public PacketStorage get(Object key) {
+            return containsKey(key) ? get(key) : put(key, new PacketStorage());
         }
     };
 
@@ -33,26 +32,24 @@ public abstract class NetworkManagerBase implements NetworkManager {
         nextId++;
     }
 
-    private static final int MAXIMUM_SIZE = 30000;
-    private static final int SPLIT_SIZE = 30000;
-    int index = 0;
+    private int index = 0;
 
     @Override
     public void send(Object target, Packet packet) {
         ByteBuf buf = createBuffer(packet.getClass());
         packet.write(buf);
-        int length = 0;
-        if ((length = buf.readableBytes()) > MAXIMUM_SIZE) {
-            int total = (int) Math.ceil(length / SPLIT_SIZE);
+        int length = buf.readableBytes();
+        if (length > MAX_PACKET_SIZE) {
+            int total = (int) Math.ceil(length * 1D / MAX_PACKET_SIZE);
             for (int i = 0; i < total; i++) {
-                send(target, wrapSplitBuffer(index++, total, i, BufUtils.readBytes(buf, SPLIT_SIZE)));
+                send(target, wrapSplitBuffer(index++, total, i, BufUtils.readBytes(buf, MAX_PACKET_SIZE)));
             }
         } else {
             send(target, Unpooled.buffer().writeBoolean(false).writeBytes(buf));
         }
     }
 
-    public abstract void send(Object target, ByteBuf buf);
+    abstract protected void send(Object target, ByteBuf buf);
 
     public void handle(Object sender, ByteBuf buf) {
         if (!buf.readBoolean()) { // Do original logic with non-split packets
@@ -84,17 +81,17 @@ public abstract class NetworkManagerBase implements NetworkManager {
         return buf;
     }
 
-    protected ByteBuf wrapSplitBuffer(int identifier, int total, int current, byte[] split) {
+    protected ByteBuf wrapSplitBuffer(int identifier, int total, int current, byte[] splitBytes) {
         ByteBuf splitBuf = Unpooled.buffer();
         splitBuf.writeBoolean(true);// Mark as split packet
         BufUtils.writeVarInt(splitBuf, identifier);
         BufUtils.writeVarInt(splitBuf, total);
         BufUtils.writeVarInt(splitBuf, current);
-        splitBuf.writeBytes(split);
+        splitBuf.writeBytes(splitBytes);
         return splitBuf;
     }
 
-    protected class SplitPacket extends HashMap<Integer, byte[]> {
+    private class SplitPacket extends HashMap<Integer, byte[]> {
         int identifier;
         int total;
 
@@ -123,19 +120,16 @@ public abstract class NetworkManagerBase implements NetworkManager {
         }
     }
 
-    protected class PacketStorage {
+    private class PacketStorage {
         HashMap<Integer, SplitPacket> storage = new HashMap<>();
 
-        public SplitPacket appendOrCreate(ByteBuf split) {
-            int identifier = BufUtils.readVarInt(split);
-            int totalPackets = BufUtils.readVarInt(split);
-            int currentPacketIndex = BufUtils.readVarInt(split);
-            SplitPacket splitPacket;
-            if (!storage.containsKey(identifier)) {
-                splitPacket = storage.put(identifier, new SplitPacket(identifier, totalPackets));
-            }
-            splitPacket = storage.get(identifier);
-            splitPacket.put(currentPacketIndex, split);
+        public SplitPacket appendOrCreate(ByteBuf splitBuf) {
+            int identifier = BufUtils.readVarInt(splitBuf);
+            int totalPackets = BufUtils.readVarInt(splitBuf);
+            int currentPacketIndex = BufUtils.readVarInt(splitBuf);
+            SplitPacket splitPacket = storage.containsKey(identifier) ?
+                    storage.get(identifier) : storage.put(identifier, new SplitPacket(identifier, totalPackets));
+            splitPacket.put(currentPacketIndex, splitBuf);
             return splitPacket;
         }
 
