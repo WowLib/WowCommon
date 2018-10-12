@@ -37,7 +37,7 @@ public class WowPlatform {
     }
 
     public static void setPlatformProvider(PlatformProvider platformProvider) {
-        if (platformProvider != null)
+        if (WowPlatform.platformProvider != null)
             throw new IllegalStateException("Wow platform has been initialized.");
         WowPlatform.platformProvider = platformProvider;
     }
