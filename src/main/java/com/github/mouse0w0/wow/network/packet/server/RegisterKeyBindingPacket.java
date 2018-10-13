@@ -26,6 +26,7 @@ public class RegisterKeyBindingPacket implements Packet {
     private JsonObject toJsonObject(Integer id, ServerKeyBinding serverKeyBinding) {
         JsonObject json = new JsonObject();
         json.addProperty("id", id);
+        json.addProperty("name", serverKeyBinding.getRegistryName().toString());
         json.addProperty("key", serverKeyBinding.getDefaultKey().getCode());
         json.addProperty("mod", serverKeyBinding.getDefaultModifier().ordinal());
         json.addProperty("domain", serverKeyBinding.getDomain().ordinal());
