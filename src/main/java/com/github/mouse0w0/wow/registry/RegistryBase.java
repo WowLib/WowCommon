@@ -31,8 +31,13 @@ public abstract class RegistryBase<T extends RegistryEntry<T>> implements Regist
     @Override
     public T register(T obj) {
         NamespacedKey key = obj.getRegistryName();
+        if (key == null)
+            throw new RegisterException(("RegistryName cannot be null."));
+
         if (registeredItems.containsKey(key))
             throw new RegisterException("\"" + key + "\" has been registered.");
+
+        registeredItems.put(key, obj);
 
         Integer id = nextId(obj);
         idToRegisteredItems.put(id, obj);
