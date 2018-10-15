@@ -9,6 +9,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import io.netty.buffer.ByteBuf;
 
+import java.util.Collection;
+
 public class RegisterKeyBindingPacket implements Packet {
 
     private JsonArray json;
