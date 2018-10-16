@@ -34,6 +34,14 @@ public interface PlatformProvider {
     User getUser(UUID uuid) throws UnsupportedOperationException;
 
     /**
+     * Return the user who are connecting server if platform is server.
+     * @see PlatformProvider#isServer()
+     * @return The user
+     * @throws UnsupportedOperationException
+     */
+    User getUser(String name) throws UnsupportedOperationException;
+
+    /**
      * Return the client user if platform is client.
      * @see PlatformProvider#isClient()
      * @return The user
