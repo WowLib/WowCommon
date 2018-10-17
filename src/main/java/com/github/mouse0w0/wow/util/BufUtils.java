@@ -2,6 +2,9 @@ package com.github.mouse0w0.wow.util;
 
 import io.netty.buffer.ByteBuf;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+
 public final class BufUtils {
     private BufUtils() {}
 
@@ -35,16 +38,24 @@ public final class BufUtils {
     }
 
     public static void writeString(ByteBuf buf, String value) {
-        byte[] bytes = value.getBytes();
+        writeString(buf, value, StandardCharsets.UTF_8);
+    }
+
+    public static void writeString(ByteBuf buf, String value, Charset charset) {
+        byte[] bytes = value.getBytes(charset);
         writeVarInt(buf, bytes.length);
         buf.writeBytes(bytes);
     }
 
     public static String readString(ByteBuf buf) {
+        return readString(buf, StandardCharsets.UTF_8);
+    }
+
+    public static String readString(ByteBuf buf, Charset charset) {
         int length = readVarInt(buf);
         byte[] bytes = new byte[length];
         buf.readBytes(bytes);
-        return new String(bytes);
+        return new String(bytes, charset);
     }
 
     public static <T extends Enum<T>> void writeEnum(ByteBuf buf, T value) {
