@@ -6,6 +6,10 @@ import java.util.function.Consumer;
 
 public class ServerKeyBinding extends KeyBinding<ServerKeyBinding> {
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
     public static class Builder {
 
         private Key defaultKey;
