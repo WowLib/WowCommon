@@ -16,7 +16,9 @@ public interface PlatformProvider {
 
     boolean isServer();
 
-    default boolean isClient() { return !isServer();}
+    default boolean isClient() {
+        return !isServer();
+    }
 
     /**
      * Return the server which are connecting if platform is client.
