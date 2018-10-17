@@ -1,5 +1,9 @@
 package com.github.mouse0w0.wow.keybinding;
 
+import com.github.mouse0w0.wow.profile.User;
+
+import java.util.function.Consumer;
+
 public class ServerKeyBinding extends KeyBinding<ServerKeyBinding> {
 
     public static class Builder {
@@ -9,8 +13,8 @@ public class ServerKeyBinding extends KeyBinding<ServerKeyBinding> {
         private KeyDomain domain;
         private String displayName;
 
-        private Runnable onPress;
-        private Runnable onRelease;
+        private Consumer<User> onPress;
+        private Consumer<User> onRelease;
 
         public Builder create() {
             return new Builder();
@@ -31,12 +35,12 @@ public class ServerKeyBinding extends KeyBinding<ServerKeyBinding> {
             return this;
         }
 
-        public Builder onPress(Runnable onPress) {
+        public Builder onPress(Consumer<User> onPress) {
             this.onPress = onPress;
             return this;
         }
 
-        public Builder onRelease(Runnable onRelease) {
+        public Builder onRelease(Consumer<User> onRelease) {
             this.onRelease = onRelease;
             return this;
         }
@@ -51,22 +55,22 @@ public class ServerKeyBinding extends KeyBinding<ServerKeyBinding> {
         }
     }
 
-    private final Runnable onPress;
-    private final Runnable onRelease;
+    private final Consumer<User> onPress;
+    private final Consumer<User> onRelease;
 
-    private ServerKeyBinding(Key defaultKey, KeyModifier defaultModifier, KeyDomain domain, String displayName, Runnable onPress, Runnable onRelease) {
+    private ServerKeyBinding(Key defaultKey, KeyModifier defaultModifier, KeyDomain domain, String displayName, Consumer<User> onPress, Consumer<User> onRelease) {
         super(defaultKey, defaultModifier, domain, displayName);
         this.onPress = onPress;
         this.onRelease = onRelease;
     }
 
-    public void onPress() {
+    public void onPress(User user) {
         if (onPress != null)
-            onPress.run();
+            onPress.accept(user);
     }
 
-    public void onRelease() {
+    public void onRelease(User user) {
         if (onRelease != null)
-            onRelease.run();
+            onRelease.accept(user);
     }
 }
