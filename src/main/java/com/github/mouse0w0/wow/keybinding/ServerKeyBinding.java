@@ -13,8 +13,8 @@ public class ServerKeyBinding extends KeyBinding<ServerKeyBinding> {
     public static class Builder {
 
         private Key defaultKey;
-        private KeyModifier defaultModifier;
-        private KeyDomain domain;
+        private KeyModifier defaultModifier = KeyModifier.NONE;
+        private KeyDomain domain = KeyDomain.UNIVERSAL;
         private String displayName;
 
         private Consumer<User> onPress;
