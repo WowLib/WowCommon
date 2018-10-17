@@ -42,7 +42,5 @@ public interface RegistryEntry<T> {
         public final Class<T> getRegistryType() {
             return (Class<T>) token.getRawType();
         }
-
-        ;
     }
 }

@@ -39,7 +39,7 @@ public class SimpleRegistryManager implements RegistryManager {
     public <T extends RegistryEntry<T>> void addRegistry(@Nonnull Class<T> type, @Nonnull Registry<T> registry) {
         Objects.requireNonNull(type, "Type cannot be null");
         Objects.requireNonNull(registry, "Registry cannot be null");
-        registries.put(registry.getRegistryEntryType(), registry);
+        registries.put(type, registry);
     }
 
     @Override

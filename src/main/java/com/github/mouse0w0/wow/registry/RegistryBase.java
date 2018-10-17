@@ -11,7 +11,7 @@ import java.util.Set;
 public abstract class RegistryBase<T extends RegistryEntry<T>> implements Registry<T> {
 
     @SuppressWarnings("serial")
-    private final TypeToken<T> token = new TypeToken<T>(getClass()) {
+    private final TypeToken<T> token = new TypeToken<T>(this.getClass()) {
     };
 
     protected final BiMap<NamespacedKey, T> registeredItems = HashBiMap.create();
@@ -25,7 +25,7 @@ public abstract class RegistryBase<T extends RegistryEntry<T>> implements Regist
     @SuppressWarnings("unchecked")
     @Override
     public Class<T> getRegistryEntryType() {
-        return (Class<T>) token.getRawType();
+        return (Class<T>) this.token.getRawType();
     }
 
     @Override

@@ -22,8 +22,10 @@ public abstract class KeyBinding<T extends KeyBinding> implements RegistryEntry<
 
     @Override
     public T setRegistryName(NamespacedKey key) {
+        if (this.key != null)
+            throw new IllegalStateException("Duplicated register");
         this.key = key;
-        return (T)this;
+        return (T) this;
     }
 
     private final Key defaultKey;
