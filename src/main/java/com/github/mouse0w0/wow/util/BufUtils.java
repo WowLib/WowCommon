@@ -42,7 +42,9 @@ public final class BufUtils {
 
     public static String readString(ByteBuf buf) {
         int length = readVarInt(buf);
-        return new String(buf.readBytes(length).array());
+        byte[] bytes = new byte[length];
+        buf.readBytes(bytes);
+        return new String(bytes);
     }
 
     public static <T extends Enum<T>> void writeEnum(ByteBuf buf, T value) {
