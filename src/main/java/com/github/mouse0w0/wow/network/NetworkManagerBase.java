@@ -156,7 +156,7 @@ public abstract class NetworkManagerBase implements NetworkManager {
             try {
                 T packet = packetType.newInstance();
                 packet.read(buf);
-                handler.hander(sender, packet);
+                handler.handle(sender, packet);
             } catch (ReflectiveOperationException e) {
                 throw new NetworkException("Couldn't handle this packet.", e);
             }
